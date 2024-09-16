@@ -1,0 +1,21 @@
+# Set analysis options
+e anal.autoname=true      # Automatically name functions
+e anal.hasnext=false      # Disable 'has next' flag after analysis
+e anal.strings=true       # Analyze strings in binary
+
+# Set debugging options
+e dbg.profile=true        # Use debugger profiling (if you are debugging)
+e dbg.bpsize=4            # Set breakpoint size (x86)
+
+# Set display options
+e scr.color=true          # Enable color
+e scr.utf8=true           # Enable UTF-8 for better visuals
+
+# Load symbols (if available)
+e io.cache=true           # Enable io caching for faster I/O operations
+
+# Perform an initial analysis of the program
+aaa                     # Automatically analyze the binary
+
+# Set log level to silent (as per your command)
+e log.level=0
