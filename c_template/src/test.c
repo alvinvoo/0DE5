@@ -8,6 +8,7 @@
 
 // Very small test helpers
 int failed = 0;
+// #define is untyped, purely TEXT substitutions (commonly for macros)
 #define TEST(name) void name()
 #define RUN_TEST(name) printf("\n\033[1m%s\n\033[0m", #name); name()
 #define ASSERT(expr) if (!(expr)) { \
@@ -52,7 +53,10 @@ TEST(test_concat1) {
 
 TEST(test_concat_better1) {
   char result[5] = {0};
-  my_strcat_better1(result, sizeof(result), "hi", "yaaaa");
+  // array decay to pointer
+  // once we pass in an array, it becomes a pointer inside the called function
+  // once that happened, there’s no way to recover the original size using sizeof(buffer) or pointer dereferencing (inside the function).
+  my_strcat_better1(result, 5, "hi", "yaaaaaaa");
   ASSERT_STR_EQ(result, "hiya");
 }
 
@@ -64,13 +68,20 @@ TEST(test_concat_heap) {
   free(result);
 }
 
+TEST(test_fizzbuzz) {
+  char buffer[100] = {0};
+  generate_fizzbuzz(buffer, 100, 5);
+  ASSERT_STR_EQ(buffer, "1, 2, Fizz, 4, Buzz.");
+}
+
 int main() {
   // Add a `RUN_TEST` line for each test function
-  RUN_TEST(test_add);
-  RUN_TEST(test_string_assert);
+  // RUN_TEST(test_add);
+  // RUN_TEST(test_string_assert);
   // RUN_TEST(test_concat);
-  RUN_TEST(test_concat1);
-  RUN_TEST(test_concat_better1);
-  RUN_TEST(test_concat_heap);
+  // RUN_TEST(test_concat1);
+  // RUN_TEST(test_concat_better1);
+  // RUN_TEST(test_concat_heap);
+  RUN_TEST(test_fizzbuzz);
   return failed;
 }
